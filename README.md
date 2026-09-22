@@ -23,7 +23,7 @@ In Version 1, the system works with the user button only. The user button is con
 
 ·Basic FSM triggered by button press.
 
-Link to the [FSM of Version 1](fsm__button_8c.html)
+Link to the [FSM of Version 1](./docs/html/fsm__button_8c.html)
 ## Version 2
 
 In Version 2, the system adds the ultrasonic transceiver (the HC-SR04) to measure the distance to an object. The trigger pin is connected to the pin PB0, and the echo pin is connected to the pin PA1. The code uses the TIM2, TIM3 and TIM5 timers to control the ultrasonic transceiver.
@@ -38,7 +38,7 @@ Where 58.3 is the time in microseconds it takes sound to travel 1 cm (at 20°C i
 
 
 
-Link to the [FSM of Version 2](fsm__ultrasound_8c.html)
+Link to the [FSM of Version 2](./docs/html/fsm__ultrasound_8c.html)
 
 ## Version 3
 In this version, an RGB LED display is developed and added, where each color is controlled by a PWM signal. This display allows us to indicate the distance of an obstacle from the car.
@@ -48,7 +48,7 @@ When a collision is imminent, the display turns red, while at greater distances 
 -Integrated RGB LED display controlled by PWM signals.
 -Visual feedback for obstacle distance
 
-Link to the [FSM of Version 3](fsm__display_8c.html)
+Link to the [FSM of Version 3](./docs/html/fsm__display_8c.html)
 
 ## Version 4
 
@@ -67,7 +67,7 @@ Additionally, the Urbanite library is integrated, combining the button input, ul
 
 ·RGB visual feedback
 
-Link to the [FSM of Version 4](fsm__urbanite_8c.html)
+Link to the [FSM of Version 4](./docs/html/fsm__urbanite_8c.html)
 
 
 
