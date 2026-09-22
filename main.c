@@ -46,7 +46,7 @@ int main(void)
     fsm_display_t * p_fsm_display = fsm_display_new(PORT_REAR_PARKING_DISPLAY_ID);
     fsm_urbanite_t * p_fsm_urbanite = fsm_urbanite_new(p_fsm_button, URBANITE_ON_OFF_PRESS_TIME_MS, URBANITE_PAUSE_DISPLAY_TIME_MS, p_fsm_ultrasound, p_fsm_display);  
 
-
+   
     /* Infinite loop */
     while (1)
     {

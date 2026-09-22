@@ -158,11 +158,11 @@ uint32_t port_ultrasound_get_echo_end_tick (uint32_t ultrasound_id);
 /**
  * @brief Get the status of the echo signal.
 
-This function returns the status of the echo signal. It will be true if the echo signal has been received (both the init and end ticks).
+This function returns the status of the echo signal.
  * 
  * @param ultrasound_id This index is used to select the element of the ultrasound_arr[] array
- * @return true 
- * @return false 
+ * @return true If the echo signal has been received (both the init and end ticks).
+ * @return false Otherwise
  */
 bool port_ultrasound_get_echo_received (uint32_t ultrasound_id);
 

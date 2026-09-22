@@ -12,8 +12,8 @@
 #define 	COLOR_RED (rgb_color_t){255, 0, 0}/*!<Red color*/
 #define 	COLOR_GREEN (rgb_color_t){0, 255, 0}/*!<Green color*/
 #define 	COLOR_BLUE (rgb_color_t){0, 0, 255}/*!<Blue color*/
-#define 	COLOR_YELLOW /*!<Yellow color*/
-#define 	COLOR_TURQUOISE /*!<Turquoise color*/
+#define 	COLOR_YELLOW (rgb_color_t){255, 255, 0}/*!<Yellow color*/
+#define 	COLOR_TURQUOISE (rgb_color_t){83, 195, 189}/*!<Turquoise color*/
 #define 	COLOR_OFF   (rgb_color_t){0, 0, 0} /*!<Off color*/
 
 

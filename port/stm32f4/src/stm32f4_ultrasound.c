@@ -340,7 +340,7 @@ static void _timer_new_measurement_setup(){ //TODO
     double arr_d = round((fclk * t_interr) / ((psc_d + 1.0))-1.0);
     arr_d = round(arr_d);
 
-    if (arr_d > 65535.0){
+    while (arr_d > 65535.0){
         psc_d += 1.0;
         arr_d = round((fclk * t_interr) / (psc_d + 1.0)-1.0);
     }
@@ -376,6 +376,8 @@ void port_ultrasound_start_measurement(uint32_t ultrasound_id) {//TODO
 
     /* Reset timers */
     bool valid_ultrasound_id = (ultrasound_id < sizeof(ultrasounds_arr) / sizeof(ultrasounds_arr[0]));
+ /* Set Trigger Pin High */
+    stm32f4_system_gpio_write(p_ultrasound->p_trigger_port, p_ultrasound->trigger_pin, true);
 
     if (valid_ultrasound_id) {
         TIM_TypeDef *trigger_timer = TIM3;
@@ -383,7 +385,7 @@ void port_ultrasound_start_measurement(uint32_t ultrasound_id) {//TODO
         TIM_TypeDef *measu_timer = TIM5;
 
         // Clear all interrupt flags
-        trigger_timer->SR &= ~(TIM_SR_UIF | TIM_SR_CC2IF);
+        //trigger_timer->SR &= ~(TIM_SR_UIF | TIM_SR_CC2IF);
 
         // Reset the counter
         trigger_timer->CNT = 0;
@@ -398,11 +400,9 @@ void port_ultrasound_start_measurement(uint32_t ultrasound_id) {//TODO
     }
 
     TIM5->SR &= ~TIM_SR_UIF; // Clear global timer interrupt flag
-    TIM5->CNT = 0; // Reset global timer counter
+    //TIM5->CNT = 0; // Reset global timer counter
 
-    /* Set Trigger Pin High */
-    stm32f4_system_gpio_write(p_ultrasound->p_trigger_port, p_ultrasound->trigger_pin, true);
-
+   
     /* Enable interrupts */
     if (valid_ultrasound_id) {
         NVIC_EnableIRQ(TIM3_IRQn); // Timer Trigger
@@ -433,7 +433,7 @@ void port_ultrasound_stop_ultrasound (uint32_t ultrasound_id){
     //TODO
     if (ultrasound_id < sizeof(ultrasounds_arr) / sizeof(ultrasounds_arr[0])) {
         TIM2->CR1 &= ~TIM_CR1_CEN;
-        TIM5->CR1 &= ~TIM_CR1_CEN;
+        TIM3->CR1 &= ~TIM_CR1_CEN;
     }
     TIM5->CR1 &= ~TIM_CR1_CEN;
 }
@@ -450,6 +450,7 @@ void port_ultrasound_reset_echo_ticks(uint32_t ultrasound_id) {
         p_ultrasound->echo_init_tick = 0;
         p_ultrasound->echo_end_tick = 0;
         p_ultrasound->echo_overflows = 0;
+        p_ultrasound->echo_received = false;
     }
 }
 
@@ -476,6 +477,9 @@ void port_ultrasound_init(uint32_t ultrasound_id) {
 
     // Configure the echo pin
     if (p_ultrasound->p_echo_port != NULL && p_ultrasound->echo_pin < 16 && p_ultrasound->echo_alt_fun != 0) {
+        stm32f4_system_gpio_config(p_ultrasound->p_echo_port, p_ultrasound->echo_pin, STM32F4_GPIO_MODE_AF, STM32F4_GPIO_PUPDR_NOPULL);
+        stm32f4_system_gpio_config_alternate(p_ultrasound->p_echo_port, p_ultrasound->echo_pin, p_ultrasound->echo_alt_fun);
+        /*
         // Configure the echo pin as alternate function mode
         p_ultrasound->p_echo_port->MODER &= ~(0x3 << (p_ultrasound->echo_pin * 2)); // Clear mode bits
         p_ultrasound->p_echo_port->MODER |= (STM32F4_GPIO_MODE_AF << (p_ultrasound->echo_pin * 2)); // Set alternate function mode
@@ -489,6 +493,7 @@ void port_ultrasound_init(uint32_t ultrasound_id) {
         uint32_t afr_pos = (p_ultrasound->echo_pin % 8) * 4; // Determine bit position in AFR register
         p_ultrasound->p_echo_port->AFR[afr_index] &= ~(0xF << afr_pos); // Clear existing alternate function bits
         p_ultrasound->p_echo_port->AFR[afr_index] |= (p_ultrasound->echo_alt_fun << afr_pos); // Set alternate function
+        */
     }
 
     // Call the private functions to configure the timers

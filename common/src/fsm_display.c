@@ -56,7 +56,7 @@ void _compute_display_levels(rgb_color_t * p_color, int32_t distance_cm){
     }
     else if (distance_cm > WARNING_MIN_CM && distance_cm <= NO_PROBLEM_MIN_CM) {
 
-        p_color->r = 237; p_color->g = 237; p_color->b = 0;
+        p_color->r = 237; p_color->g = 150; p_color->b = 0;
         return;
     }
     else if (distance_cm > NO_PROBLEM_MIN_CM && distance_cm <= INFO_MIN_CM) {
@@ -74,7 +74,7 @@ void _compute_display_levels(rgb_color_t * p_color, int32_t distance_cm){
         p_color->r = 0;   p_color->g = 0; p_color->b = 255;
         return;
     }
-    else {
+    else if (distance_cm >OK_MAX_CM){
         // Fuera de rango: apagado
         p_color->r = 0;   p_color->g = 0;   p_color->b = 0;
         return;
@@ -224,7 +224,7 @@ void fsm_display_fire (fsm_display_t * p_fsm){
 
 void fsm_display_destroy (fsm_display_t * p_fsm){
     if (p_fsm != NULL) {
-        free(p_fsm); /* Free the memory of the FSM */
+        free(&p_fsm->f); /* Free the memory of the FSM */
     }
 }
 
